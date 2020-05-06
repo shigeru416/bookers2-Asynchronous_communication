@@ -19,45 +19,13 @@
 			</tr>
 		</table>
 
-		<p><%= @book_post.book_comments.count %>件のコメント</p>
-			<table class="table">
-				<% @book_post.book_comments.each do |book_comment| %>
-				<tr>
-					<td width="50">
-						<%= attachment_image_tag(book_comment.user, :profile_image, :fill, 40, 40, class: "img-circle pull-left profile-img", fallback: "no-image-mini.jpg") %>
-					</td>
-					<td width="30">
-						<%= book_comment.user.name %>
-					</td>
-					<td>
-						<p><%= book_comment.comment %></p>
-					</td>
-					<td width="110">
-							<%= book_comment.created_at.strftime('%Y/%m/%d') %>
-							<% if current_user.id == book_comment.user_id %>
-								<%= link_to '', book_book_comments_path(@book_post, book_comment), class: "glyphicon glyphicon-remove", method: :delete %>
-							<% end %>
-					</td>
-				</tr>
-				<% end %>
-			</table>
+		<section class="comments_area">
+				<%= render "books/book_comments", book_post: @book_post %>		
+		</section>
 
-		<section>
-        <% if @book_comment.errors.any? %>
-        <div id="error_explanation">
-        	<h2><%= @book_comment.count %>errors prohibted this book from being saved:</h2>
-        	<ul>
-             	<% @book_comment.full_messages.each do |message| %>
-             	<li><%= message %></li>
-             	<% end %>
-             </ul>
-         </div>
-         <% end %>
-
-		<%= form_for [@book_post, @book_comment] do |f| %>
-            <%= f.text_area :comment, class: "form-control" %>
-   				<%= f.submit "送信する", class: "btn btn-primary btn-sm" %>
-		<% end %>
+		<section class="comment_form">
+				<%= render "books/book_commentform", book_post: @book_post, book_comment: @book_comment %>
+		
 		</section>
 
 	</div>
